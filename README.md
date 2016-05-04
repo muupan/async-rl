@@ -16,7 +16,7 @@ You can make the trained model to play Breakout by the following command:
 python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
 ```
 
-### Some hyperparameters
+### Some Hyperparameters
 
 - RMSprop
  - learning rate: initialize with 3.5e-4 (policy) and 7e-4 (value function) and linearly decrease to zero
