@@ -18,7 +18,7 @@ I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. 
 ## Requirements
 
 - chainer (>=1.8.1)
-- cached_property (>=1.3.0)
+- cached-property (>=1.3.0)
 - Arcade-Learning-Environment
 
 ## Train
