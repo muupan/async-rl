@@ -34,3 +34,9 @@ python a3c_ale.py <number-of-processes> <path-to-atari-rom>
 ```
 python demo_a3c_ale.py <path-to-atari-rom> <trained-model>
 ```
+
+You can make the trained model to play Breakout by:
+
+```
+python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
+```
