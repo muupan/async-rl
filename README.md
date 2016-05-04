@@ -2,6 +2,8 @@
 
 This is a repository where I attempt to reproduce the results of [Asynchronous Methods for Deep Reinforcement Learning](http://arxiv.org/abs/1602.01783). It's still work-in-progress and not so successfull compared to the original results.
 
+Any feedback is welcome :)
+
 ## Current Status
 
 I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. The scores of test runs along training are plotted below. One test run for every 100000 training steps (counted by the global shared counter).
