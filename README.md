@@ -10,6 +10,12 @@ I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. 
 
 ![A3C scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_scores.png)
 
+You can make the trained model to play Breakout by the following command:
+
+```
+python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
+```
+
 ### Some hyperparameters
 
 - RMSprop
@@ -35,10 +41,4 @@ python a3c_ale.py <number-of-processes> <path-to-atari-rom>
 
 ```
 python demo_a3c_ale.py <path-to-atari-rom> <trained-model>
-```
-
-You can make the trained model to play Breakout by:
-
-```
-python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
 ```
