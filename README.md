@@ -8,10 +8,17 @@ I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. 
 
 ![A3C scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_scores.png)
 
+### Some hyperparameters
+
+- RMSprop
+ - learning rate: initialize with 3.5e-4 (policy) and 7e-4 (value function) and linearly decrease to zero
+ - epsilon: 0.1 (epsilon is inside sqrt)
+ - alpha: 0.99
+
 ## Requirements
 
-- chainer
-- cached_property
+- chainer (>=1.8.1)
+- cached_property (>=1.3.0)
 - Arcade-Learning-Environment
 
 ## Train
