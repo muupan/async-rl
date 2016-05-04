@@ -4,7 +4,7 @@ This is a repository where I attempt to reproduce the results of [Asynchronous M
 
 ## Current Status
 
-I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. The scores of test runs along training are plotted below. One test run for every 100000 training steps.
+I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. The scores of test runs along training are plotted below. One test run for every 100000 training steps (counted by the global shared counter).
 
 ![A3C scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_scores.png)
 
