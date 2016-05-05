@@ -26,8 +26,8 @@ python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
 ## Requirements
 
 - Python 3.5.1
-- chainer >=1.8.1
-- cached-property >=1.3.0
+- chainer 1.8.1
+- cached-property 1.3.0
 - h5py 2.5.0
 - Arcade-Learning-Environment
 
