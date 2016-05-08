@@ -31,7 +31,7 @@ python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
 - h5py 2.5.0
 - Arcade-Learning-Environment
 
-## Train
+## Training
 
 ```
 python a3c_ale.py <number-of-processes> <path-to-atari-rom>
@@ -44,3 +44,7 @@ python a3c_ale.py <number-of-processes> <path-to-atari-rom>
 ```
 python demo_a3c_ale.py <path-to-atari-rom> <trained-model>
 ```
+
+## Similar Projects
+
+- https://github.com/miyosuda/async_deep_reinforce
