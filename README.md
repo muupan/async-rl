@@ -1,25 +1,27 @@
 # Async-RL
 
-This is a repository where I attempt to reproduce the results of [Asynchronous Methods for Deep Reinforcement Learning](http://arxiv.org/abs/1602.01783). It's still work-in-progress and not so successfull compared to the original results.
+![A3C playing Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout/animation.gif)
+
+This is a repository where I attempt to reproduce the results of [Asynchronous Methods for Deep Reinforcement Learning](http://arxiv.org/abs/1602.01783). Currently I have only reproduced the results of A3C FF on Atari Breakout.
 
 Any feedback is welcome :)
 
 ## Current Status
 
-I trained A3C for ALE's Breakout with 8 processes for about 2 days and 5 hours. The scores of test runs along training are plotted below. One test run for every 100000 training steps (counted by the global shared counter).
+I trained A3C for ALE's Breakout with 36 processes (AWS EC2 c4.8xlarge) for 80 million training steps, which took about 17 hours. The mean and median of scores of test runs along training are plotted below. Ten test runs for every 1 million training steps (counted by the global shared counter). The results seems slightly worse than theirs.
 
-![A3C scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_scores.png)
+![A3C scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout/scores.txt.png)
 
-You can make the trained model to play Breakout by the following command:
+The trained model is uploaded at `trained_model/breakout/80000000_finish.h5`, so you can make it to play Breakout by the following command:
 
 ```
-python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_48100000.h5
+python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout/80000000_finish.h5
 ```
 
 ### Some Hyperparameters
 
 - RMSprop
- - learning rate: initialize with 3.5e-4 (policy) and 7e-4 (value function) and linearly decrease to zero
+ - learning rate: initialize with 7e-4 (policy) and 3.5e-4 (value function) and linearly decrease to zero
  - epsilon: 0.1 (epsilon is inside sqrt)
  - alpha: 0.99
 
