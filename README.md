@@ -18,7 +18,7 @@ The trained model is uploaded at `trained_model/breakout/80000000_finish.h5`, so
 python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout/80000000_finish.h5
 ```
 
-The animation gif above is the episode I cherry-picked from 10 demo runs.
+The animation gif above is the episode I cherry-picked from 10 demo runs using that model.
 
 I received a confirmation about their implementation details and some hyperparameters by e-mail from Dr. Mnih. I summarized them in the wiki: https://github.com/muupan/async-rl/wiki
 
