@@ -18,12 +18,7 @@ The trained model is uploaded at `trained_model/breakout/80000000_finish.h5`, so
 python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout/80000000_finish.h5
 ```
 
-### Some Hyperparameters
-
-- RMSprop
- - learning rate: initialize with 7e-4 (policy) and 3.5e-4 (value function) and linearly decrease to zero
- - epsilon: 0.1 (epsilon is inside sqrt)
- - alpha: 0.99
+I received a confirmation about their implementation details and some hyperparameters by e-mail from Dr. Mnih. I summarized them in the wiki: https://github.com/muupan/async-rl/wiki
 
 ## Requirements
 
