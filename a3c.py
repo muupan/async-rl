@@ -8,7 +8,6 @@ from chainer import serializers
 from chainer import functions as F
 
 import copy_param
-import clipped_loss
 
 logger = getLogger(__name__)
 
