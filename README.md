@@ -38,6 +38,8 @@ python a3c_ale.py <number-of-processes> <path-to-atari-rom>
 
 `a3c_ale.py` will save best-so-far models and test scores into the output directory.
 
+Unfortunately it seems this script has some bug now. Please see the issues [#5](https://github.com/muupan/async-rl/issues/5) and [#6](https://github.com/muupan/async-rl/issues/6). I'm trying to fix it. 
+
 ## Evaluation
 
 ```
