@@ -13,7 +13,7 @@ Any feedback is welcome :)
 
 I trained A3C FF for ALE's Breakout with 36 processes (AWS EC2 c4.8xlarge) for 80 million training steps, which took about 17 hours. The mean and median of scores of test runs along training are plotted below. Ten test runs for every 1 million training steps (counted by the global shared counter). The results seems slightly worse than theirs.
 
-![A3C FF scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_ff/scores.txt.png)
+<img src="https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_ff/scores.txt.png" width="400">
 
 The trained model is uploaded at `trained_model/breakout_ff/80000000_finish.h5`, so you can make it to play Breakout by the following command:
 
@@ -27,7 +27,7 @@ The animation gif above is the episode I cherry-picked from 10 demo runs using t
 
 I also trained A3C LSTM for ALE's Space Invaders in the same manner with A3C FF. Training A3C LSTM took about 24 hours for 80 million training steps.
 
-![A3C LSTM scores on Space Invaders](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/space_invaders_lstm/scores.txt.png)
+<img src="https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/space_invaders_lstm/scores.txt.png" width="400">
 
 The trained model is uploaded at `trained_model/space_invaders_lstm/80000000_finish.h5`, so you can make it to play Space Invaders by the following command:
 
