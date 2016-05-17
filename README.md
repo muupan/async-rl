@@ -1,24 +1,43 @@
 # Async-RL
 
-![A3C playing Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout/animation.gif)
+![A3C FF playing Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_ff/animation.gif)
+![A3C LSTM playing Space Invaders](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/space_invaders_lstm/animation.gif)
 
-This is a repository where I attempt to reproduce the results of [Asynchronous Methods for Deep Reinforcement Learning](http://arxiv.org/abs/1602.01783). Currently I have only reproduced the results of A3C FF on Atari Breakout.
+This is a repository where I attempt to reproduce the results of [Asynchronous Methods for Deep Reinforcement Learning](http://arxiv.org/abs/1602.01783). Currently I have only replicated A3C FF/LSTM for Atari.
 
 Any feedback is welcome :)
 
 ## Current Status
 
-I trained A3C for ALE's Breakout with 36 processes (AWS EC2 c4.8xlarge) for 80 million training steps, which took about 17 hours. The mean and median of scores of test runs along training are plotted below. Ten test runs for every 1 million training steps (counted by the global shared counter). The results seems slightly worse than theirs.
+### A3C FF
 
-![A3C scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout/scores.txt.png)
+I trained A3C FF for ALE's Breakout with 36 processes (AWS EC2 c4.8xlarge) for 80 million training steps, which took about 17 hours. The mean and median of scores of test runs along training are plotted below. Ten test runs for every 1 million training steps (counted by the global shared counter). The results seems slightly worse than theirs.
 
-The trained model is uploaded at `trained_model/breakout/80000000_finish.h5`, so you can make it to play Breakout by the following command:
+![A3C FF scores on Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_ff/scores.txt.png)
+
+The trained model is uploaded at `trained_model/breakout_ff/80000000_finish.h5`, so you can make it to play Breakout by the following command:
 
 ```
-python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout/80000000_finish.h5
+python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_ff/80000000_finish.h5
 ```
 
 The animation gif above is the episode I cherry-picked from 10 demo runs using that model.
+
+### A3C LSTM
+
+I also trained A3C LSTM for ALE's Space Invaders in the same manner with A3C FF. Training A3C LSTM took about 24 hours for 80 million training steps.
+
+![A3C LSTM scores on Space Invaders](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/space_invaders_lstm/scores.txt.png)
+
+The trained model is uploaded at `trained_model/space_invaders_lstm/80000000_finish.h5`, so you can make it to play Space Invaders by the following command:
+
+```
+python demo_a3c_ale.py <path-to-breakout-rom> trained_model/space_invaders_lstm/80000000_finish.h5 --use-lstm
+```
+
+The animation gif above is the episode I cherry-picked from 10 demo runs using that model.
+
+### Implementation details
 
 I received a confirmation about their implementation details and some hyperparameters by e-mail from Dr. Mnih. I summarized them in the wiki: https://github.com/muupan/async-rl/wiki
 
@@ -33,7 +52,7 @@ I received a confirmation about their implementation details and some hyperparam
 ## Training
 
 ```
-python a3c_ale.py <number-of-processes> <path-to-atari-rom>
+python a3c_ale.py <number-of-processes> <path-to-atari-rom> [--use-lstm]
 ```
 
 `a3c_ale.py` will save best-so-far models and test scores into the output directory.
@@ -43,7 +62,7 @@ Unfortunately it seems this script has some bug now. Please see the issues [#5](
 ## Evaluation
 
 ```
-python demo_a3c_ale.py <path-to-atari-rom> <trained-model>
+python demo_a3c_ale.py <path-to-atari-rom> <trained-model> [--use-lstm]
 ```
 
 ## Similar Projects
