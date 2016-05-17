@@ -18,7 +18,7 @@ I trained A3C FF for ALE's Breakout with 36 processes (AWS EC2 c4.8xlarge) for 8
 The trained model is uploaded at `trained_model/breakout_ff/80000000_finish.h5`, so you can make it to play Breakout by the following command:
 
 ```
-python demo_a3c_ale.py <path-to-breakout-rom> trained_model/breakout_ff/80000000_finish.h5
+python demo_a3c_ale.py <path-to-rom> trained_model/breakout_ff/80000000_finish.h5
 ```
 
 The animation gif above is the episode I cherry-picked from 10 demo runs using that model.
@@ -32,7 +32,7 @@ I also trained A3C LSTM for ALE's Space Invaders in the same manner with A3C FF.
 The trained model is uploaded at `trained_model/space_invaders_lstm/80000000_finish.h5`, so you can make it to play Space Invaders by the following command:
 
 ```
-python demo_a3c_ale.py <path-to-breakout-rom> trained_model/space_invaders_lstm/80000000_finish.h5 --use-lstm
+python demo_a3c_ale.py <path-to-rom> trained_model/space_invaders_lstm/80000000_finish.h5 --use-lstm
 ```
 
 The animation gif above is the episode I cherry-picked from 10 demo runs using that model.
