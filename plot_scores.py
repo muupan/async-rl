@@ -18,7 +18,6 @@ def main():
     plt.xlabel('steps')
     plt.ylabel('score')
     plt.legend(loc='best')
-    plt.show()
     fig_fname = args.scores + '.png'
     plt.savefig(fig_fname)
     print('Saved a figure as {}'.format(fig_fname))
