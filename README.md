@@ -7,6 +7,12 @@ This is a repository where I attempt to reproduce the results of [Asynchronous M
 
 Any feedback is welcome :)
 
+## Supported Features
+
+- A3C FF/LSTM (only for discrete action space)
+- Atari environment
+- ViZDoom environment (experimental)
+
 ## Current Status
 
 ### A3C FF
