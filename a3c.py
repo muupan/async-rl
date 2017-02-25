@@ -9,6 +9,16 @@ from chainer import functions as F
 
 import copy_param
 
+
+# Check if the hdf5 serializer that we want to use is avaliable
+try:
+    # will raise Runtime Error w/o h5py
+    serializers.save_hdf5(None,None)
+except AttributeError:
+    # because of None values
+    pass
+
+
 logger = getLogger(__name__)
 
 

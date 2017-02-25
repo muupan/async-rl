@@ -4,7 +4,6 @@ import multiprocessing as mp
 import chainer
 from chainer import links as L
 from chainer import functions as F
-import cv2
 import numpy as np
 
 import policy
@@ -16,10 +15,11 @@ import rmsprop_async
 from init_like_torch import init_like_torch
 import run_a3c
 import doom_env
+from utils import imresize
 
 
 def phi(obs):
-    resized = cv2.resize(obs.image_buffer, (84, 84))
+    resized = imresize(obs.image_buffer, (84, 84))
     return resized.transpose(2, 0, 1).astype(np.float32) / 255
 
 

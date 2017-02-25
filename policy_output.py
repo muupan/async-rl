@@ -9,7 +9,7 @@ class PolicyOutput(object):
     pass
 
 
-def _sample_discrete_actions(batch_probs):
+def _sample_discrete_actions(batch_probs, randstate):
     """Sample a batch of actions from a batch of action probabilities.
 
     Args:
@@ -31,8 +31,9 @@ def _sample_discrete_actions(batch_probs):
 
 class SoftmaxPolicyOutput(PolicyOutput):
 
-    def __init__(self, logits):
+    def __init__(self, logits, randstate):
         self.logits = logits
+        self.policy_output_randstate = randstate
 
     @cached_property
     def most_probable_actions(self):
@@ -48,7 +49,7 @@ class SoftmaxPolicyOutput(PolicyOutput):
 
     @cached_property
     def action_indices(self):
-        return _sample_discrete_actions(self.probs.data)
+        return _sample_discrete_actions(self.probs.data, self.policy_output_randstate)
 
     @cached_property
     def sampled_actions_log_probs(self):

@@ -4,9 +4,9 @@ import sys
 
 import numpy as np
 from ale_python_interface import ALEInterface
-import cv2
 
 import environment
+from utils import imresize
 
 
 class ALE(environment.EpisodicEnvironment):
@@ -27,9 +27,22 @@ class ALE(environment.EpisodicEnvironment):
             assert seed >= 0 and seed < 2 ** 16, \
                 "ALE's random seed must be represented by unsigned int"
         else:
-            # Use numpy's random state
+            # Warning Starting ALE without explicit random seeds can lead
+            # to all processes sharing the same inital state. Please check the
+            # args.txt in case you are concerned about this.
             seed = np.random.randint(0, 2 ** 16)
-        ale.setInt(b'random_seed', seed)
+
+        # Remember our (per process) random seed
+        self.seed = seed
+
+        # Intialize a random state for this thread. If we always call
+        # self.randstate instead of np.random it should make the process
+        # deterministic.
+        self.randstate = np.random.RandomState(self.seed)
+
+        # Use the random seed for the ALE too
+        ale.setInt(b'random_seed', self.seed)
+
         ale.setFloat(b'repeat_action_probability', 0.0)
         ale.setBool(b'color_averaging', False)
         if record_screen_dir is not None:
@@ -72,8 +85,7 @@ class ALE(environment.EpisodicEnvironment):
         assert img.shape == (210, 160)
         if self.crop_or_scale == 'crop':
             # Shrink (210, 160) -> (110, 84)
-            img = cv2.resize(img, (84, 110),
-                             interpolation=cv2.INTER_LINEAR)
+            img = imresize(img, (84, 110))
             assert img.shape == (110, 84)
             # Crop (110, 84) -> (84, 84)
             unused_height = 110 - 84
@@ -81,8 +93,7 @@ class ALE(environment.EpisodicEnvironment):
             top_crop = unused_height - bottom_crop
             img = img[top_crop: 110 - bottom_crop, :]
         elif self.crop_or_scale == 'scale':
-            img = cv2.resize(img, (84, 84),
-                             interpolation=cv2.INTER_LINEAR)
+            img = imresize(img, (84, 84))
         else:
             raise RuntimeError('crop_or_scale must be either crop or scale')
         assert img.shape == (84, 84)
@@ -144,7 +155,7 @@ class ALE(environment.EpisodicEnvironment):
             self.ale.reset_game()
 
         if self.max_start_nullops > 0:
-            n_nullops = np.random.randint(0, self.max_start_nullops + 1)
+            n_nullops = self.randstate.randint(0, self.max_start_nullops + 1)
             for _ in range(n_nullops):
                 self.ale.act(0)
 

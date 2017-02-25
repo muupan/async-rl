@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 import copy
 import multiprocessing as mp
@@ -27,12 +28,15 @@ from dqn_phi import dqn_phi
 
 class A3CFF(chainer.ChainList, a3c.A3CModel):
 
-    def __init__(self, n_actions):
+    def __init__(self, n_actions, seed):
         self.head = dqn_head.NIPSDQNHead()
         self.pi = policy.FCSoftmaxPolicy(
-            self.head.n_output_channels, n_actions)
+            self.head.n_output_channels, n_actions, seed)
         self.v = v_function.FCVFunction(self.head.n_output_channels)
-        super().__init__(self.head, self.pi, self.v)
+        if sys.version_info < (3,0):
+            super(A3CFF, self).__init__(self.head, self.pi, self.v)
+        else:
+            super().__init__(self.head, self.pi, self.v)
         init_like_torch(self)
 
     def pi_and_v(self, state, keep_same_state=False):
@@ -42,14 +46,17 @@ class A3CFF(chainer.ChainList, a3c.A3CModel):
 
 class A3CLSTM(chainer.ChainList, a3c.A3CModel):
 
-    def __init__(self, n_actions):
+    def __init__(self, n_actions, seed):
         self.head = dqn_head.NIPSDQNHead()
         self.pi = policy.FCSoftmaxPolicy(
-            self.head.n_output_channels, n_actions)
+            self.head.n_output_channels, n_actions, seed)
         self.v = v_function.FCVFunction(self.head.n_output_channels)
         self.lstm = L.LSTM(self.head.n_output_channels,
                            self.head.n_output_channels)
-        super().__init__(self.head, self.lstm, self.pi, self.v)
+        if sys.version_info < (3,0):
+            super(A3CLSTM, self).__init__(self.head, self.lstm, self.pi, self.v)
+        else:
+            super().__init__(self.head, self.lstm, self.pi, self.v)
         init_like_torch(self)
 
     def pi_and_v(self, state, keep_same_state=False):
@@ -207,8 +214,20 @@ def main():
     parser.set_defaults(use_lstm=False)
     args = parser.parse_args()
 
-    if args.seed is not None:
-        random_seed.set_random_seed(args.seed)
+    if args.seed is None:
+        args.seed = np.random.randint(0, 2 ** 16)
+
+
+    # I suggest using train_randstate instead of np.random because it proably
+    # behaves better for async use.
+    train_randstate = np.random.RandomState(args.seed)
+
+    # Choose random seed before async execution, in oder to assure
+    # that we obtain different seeds for each process. This can be checked
+    # by making sure each emulator has different seed, this works because each
+    # emulator is set to have the same random seeds as its process ( the ALE python
+    # class ) see ale.py for detials
+    process_seeds = train_randstate.randint(0, 2 ** 16, args.processes)
 
     args.outdir = prepare_output_dir(args, args.outdir)
 
@@ -216,11 +235,11 @@ def main():
 
     n_actions = ale.ALE(args.rom).number_of_actions
 
-    def model_opt():
+    def model_opt(seed=args.seed):
         if args.use_lstm:
-            model = A3CLSTM(n_actions)
+            model = A3CLSTM(n_actions,seed=seed)
         else:
-            model = A3CFF(n_actions)
+            model = A3CFF(n_actions,seed=seed)
         opt = rmsprop_async.RMSpropAsync(lr=7e-4, eps=1e-1, alpha=0.99)
         opt.setup(model)
         opt.add_hook(chainer.optimizer.GradientClipping(40))
@@ -242,9 +261,15 @@ def main():
         column_names = ('steps', 'elapsed', 'mean', 'median', 'stdev')
         print('\t'.join(column_names), file=f)
 
+    # convert np.int64 to python int for JSON
+    process_seeds = [int(x) for x in process_seeds]
+
     def run_func(process_idx):
-        env = ale.ALE(args.rom, use_sdl=args.use_sdl)
-        model, opt = model_opt()
+        env = ale.ALE(args.rom,
+                      seed=process_seeds[process_idx],
+                      use_sdl=args.use_sdl)
+
+        model, opt = model_opt(seed=process_seeds[process_idx])
         async.set_shared_params(model, shared_params)
         async.set_shared_states(opt, shared_states)
 

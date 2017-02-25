@@ -4,6 +4,7 @@ logger = getLogger(__name__)
 import chainer
 from chainer import functions as F
 from chainer import links as L
+import numpy as np
 
 import policy_output
 
@@ -26,18 +27,28 @@ class SoftmaxPolicy(Policy):
         raise NotImplementedError
 
     def __call__(self, state):
-        return policy_output.SoftmaxPolicyOutput(self.compute_logits(state))
+        # The SoftmaxPolicyOutput is not persistent, so it cannot hold
+        # its own random state, rely instead on the policy randstate
+        # passed as a reference
+        return policy_output.SoftmaxPolicyOutput(
+            self.compute_logits(state),
+            self.policy_randstate)
 
 
 class FCSoftmaxPolicy(chainer.ChainList, SoftmaxPolicy):
     """Softmax policy that consists of FC layers and rectifiers"""
 
-    def __init__(self, n_input_channels, n_actions,
+    def __init__(self, n_input_channels, n_actions, seed,
                  n_hidden_layers=0, n_hidden_channels=None):
         self.n_input_channels = n_input_channels
         self.n_actions = n_actions
         self.n_hidden_layers = n_hidden_layers
         self.n_hidden_channels = n_hidden_channels
+
+        # Have a per policy randstate, this should provide diversity
+        # in the fact of similar environments
+        self.model_seed = seed
+        self.policy_randstate = np.random.RandomState(seed)
 
         layers = []
         if n_hidden_layers > 0:

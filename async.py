@@ -75,6 +75,7 @@ def run_async(n_process, run_func):
 
     processes = []
 
+    # It is not clear to me that this does what it should. --max
     def set_seed_and_run(process_idx, run_func):
         random_seed.set_random_seed(np.random.randint(0, 2 ** 32))
         run_func(process_idx)

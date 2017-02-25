@@ -9,7 +9,6 @@ import time
 import chainer
 from chainer import links as L
 from chainer import functions as F
-import cv2
 import numpy as np
 
 import a3c
