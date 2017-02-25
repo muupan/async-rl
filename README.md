@@ -1,5 +1,7 @@
 # Async-RL
 
+*(2017/02/25) Now the A3C implementation in this repository has been ported into [ChainerRL](https://github.com/pfnet/chainerrl), a Chainer-based deep reinforcement learning library, with some enhancement such as support for continuous actions by Gaussian policies and n-step Q-learning, so I recommend using it instead of this repository.*
+
 ![A3C FF playing Breakout](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/breakout_ff/animation.gif)
 ![A3C LSTM playing Space Invaders](https://raw.githubusercontent.com/muupan/async-rl/master/trained_model/space_invaders_lstm/animation.gif)
 
