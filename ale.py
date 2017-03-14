@@ -4,9 +4,12 @@ import sys
 
 import numpy as np
 from ale_python_interface import ALEInterface
-import cv2
 
 import environment
+from utils import imresize
+
+from utils import imresize
+
 
 
 class ALE(environment.EpisodicEnvironment):
@@ -72,8 +75,7 @@ class ALE(environment.EpisodicEnvironment):
         assert img.shape == (210, 160)
         if self.crop_or_scale == 'crop':
             # Shrink (210, 160) -> (110, 84)
-            img = cv2.resize(img, (84, 110),
-                             interpolation=cv2.INTER_LINEAR)
+            img = imresize(img, (84, 110))
             assert img.shape == (110, 84)
             # Crop (110, 84) -> (84, 84)
             unused_height = 110 - 84
@@ -81,8 +83,7 @@ class ALE(environment.EpisodicEnvironment):
             top_crop = unused_height - bottom_crop
             img = img[top_crop: 110 - bottom_crop, :]
         elif self.crop_or_scale == 'scale':
-            img = cv2.resize(img, (84, 84),
-                             interpolation=cv2.INTER_LINEAR)
+            img = imresize(img, (84, 84))
         else:
             raise RuntimeError('crop_or_scale must be either crop or scale')
         assert img.shape == (84, 84)

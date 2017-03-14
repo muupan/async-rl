@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 import copy
 import multiprocessing as mp
@@ -32,7 +33,10 @@ class A3CFF(chainer.ChainList, a3c.A3CModel):
         self.pi = policy.FCSoftmaxPolicy(
             self.head.n_output_channels, n_actions)
         self.v = v_function.FCVFunction(self.head.n_output_channels)
-        super().__init__(self.head, self.pi, self.v)
+        if sys.version_info < (3,0):
+            super(A3CFF, self).__init__(self.head, self.pi, self.v)
+        else:
+            super().__init__(self.head, self.pi, self.v)
         init_like_torch(self)
 
     def pi_and_v(self, state, keep_same_state=False):
@@ -49,7 +53,10 @@ class A3CLSTM(chainer.ChainList, a3c.A3CModel):
         self.v = v_function.FCVFunction(self.head.n_output_channels)
         self.lstm = L.LSTM(self.head.n_output_channels,
                            self.head.n_output_channels)
-        super().__init__(self.head, self.lstm, self.pi, self.v)
+        if sys.version_info < (3,0):
+            super(A3CLSTM, self).__init__(self.head, self.lstm, self.pi, self.v)
+        else:
+            super().__init__(self.head, self.lstm, self.pi, self.v)
         init_like_torch(self)
 
     def pi_and_v(self, state, keep_same_state=False):
